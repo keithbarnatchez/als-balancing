@@ -36,7 +36,7 @@ source('als-helper-functions.R')
 
 # Covariates: age, bmi, months since diagnosis, baseline ALSFRSR
 meanvec <- c(55,25,6, 32)
-sigma <- diag(rep(1,4)) ; diag(sigma) <- c(4,2,1,16)
+sigma <- diag(rep(1,4)) ; diag(sigma) <- c(36,2,1,16)
 n <- 100
 
 # sigma <- matrix(c(4, 0.1, -0.3,
@@ -61,17 +61,10 @@ df <- gen_data(n, # sample size
          meanvec, sigma, # covariate params
          alphas, # ps coefficients
          tau, betas, gammas)
-
-X <- gen_covariates(n,meanvec, sigma)
-A <- tmt_model(X,alphas)
-pot_outs <- pot_outcome_model(X,tau,betas,gammas)
-
-df <- data.frame(cbind(X,A,pot_outs))
-df <- df %>% mutate(Y = ifelse(A==1,Y1,Y0))
 #-------------------------------------------------------------------------------
 # Simulation scenario 2: constant tmt effect
 
-gammas <- rep(0, 5) ; tau <- 0
+gammas <- rep(0, 5) ; tau =  0
 
 # covariates (way I'm thinking of doing this, eventually, is to approx dist of 
 # covariates in the data we have with a MVN and use the estimated params to gen
